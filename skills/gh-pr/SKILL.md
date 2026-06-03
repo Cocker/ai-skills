@@ -51,7 +51,7 @@ Prefer `gh` commands for GitHub operations and plain `git` commands for local re
 
   describe the intention of the PR
 
-  # Visualized (optional)
+  # Visualized
 
   add an artifact that will visualize the changes where it makes sense (mermaid, tree, etc)
 
@@ -59,8 +59,11 @@ Prefer `gh` commands for GitHub operations and plain `git` commands for local re
   
   # Validation
 
-  what was used to validate the validity of this PR
+  what was used to verify the validity of this PR
 ```
+
+Notes:
+ - Visualized section is optional
 
 Example (adjust paths/flags as needed):
 
