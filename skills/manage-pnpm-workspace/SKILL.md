@@ -23,10 +23,15 @@ Before editing, collect the workspace shape and package-manager policy:
 - Set an exact root `packageManager`, for example `"pnpm@11.2.2"`, using the repo's existing pnpm version when already present.
 - If the repo uses an older pnpm major, suggest updating to pnpm 11 before adding new hardening settings.
 - Prefer `pmOnFail` over older `managePackageManagerVersions`, `packageManagerStrict`, and `packageManagerStrictVersion` settings.
-- Prefer `allowBuilds` over older `onlyBuiltDependencies`, `ignoredBuiltDependencies`, `neverBuiltDependencies`, and `ignoreDepScripts` settings.
+- Prefer `allowBuilds` over older `onlyBuiltDependencies`, `onlyBuiltDependenciesFile`, `ignoredBuiltDependencies`, `neverBuiltDependencies`, and `ignoreDepScripts` settings.
 - Keep root `private: true` for app repos and unpublished monorepo roots.
 - Add or preserve `engines.node` when the runtime floor is known.
 - Keep dependency specs exact for hardened app repos. Convert `^`, `~`, and `latest` only when the task is hardening-focused and the lockfile preserves resolved versions.
+- Do not restate pnpm 11 defaults unless the repo already carries them or the value documents an intentional policy choice.
+
+pnpm 11 already defaults these settings to the recommended hardened values: `minimumReleaseAge: 1440`, `blockExoticSubdeps: true`, `trustLockfile: false`, `verifyStoreIntegrity: true`, `strictStorePkgContentCheck: true`, `strictDepBuilds: true`, `dangerouslyAllowAllBuilds: false`, `linkWorkspacePackages: false`, `saveWorkspaceProtocol: rolling`, and `sharedWorkspaceLockfile: true`.
+
+When `minimumReleaseAge` is explicitly configured, pnpm 11 defaults `minimumReleaseAgeStrict` to `true`. Leave it implicit unless you are changing strictness.
 
 ## Hardened Baseline
 
@@ -34,29 +39,17 @@ Start from this baseline for a single-app workspace:
 
 ```yaml
 minimumReleaseAge: 10080
-minimumReleaseAgeStrict: true
 minimumReleaseAgeIgnoreMissingTime: false
 trustPolicy: no-downgrade
-trustLockfile: false
-blockExoticSubdeps: true
 
 engineStrict: true
 pmOnFail: error
 savePrefix: ""
-
-verifyStoreIntegrity: true
-strictStorePkgContentCheck: true
-strictDepBuilds: true
-dangerouslyAllowAllBuilds: false
-allowBuilds: {}
 ```
 
 For monorepos, add these workspace-specific settings to the baseline:
 
 ```yaml
-linkWorkspacePackages: false
-saveWorkspaceProtocol: rolling
-sharedWorkspaceLockfile: true
 disallowWorkspaceCycles: true
 failIfNoMatch: true
 
@@ -69,9 +62,9 @@ Adjust the baseline deliberately:
 
 - Add `minimumReleaseAgeExclude` only for pinned package/version exceptions that must install immediately and have explicit user confirmation.
 - Add `trustPolicyExclude` only for reviewed package/version exceptions that have explicit user confirmation.
-- Leave `trustLockfile: false` for public or contributor-edited repos.
+- Leave `trustLockfile` at its default `false` for public or contributor-edited repos.
 - Do not set `dangerouslyAllowAllBuilds: true`.
-- Use `allowBuilds` as an explicit allow/deny map. Keep it empty until pnpm reports packages that need review, and ask the user before adding each package.
+- Use `allowBuilds` only as an explicit allow/deny map for reviewed packages. Do not preseed `allowBuilds: {}`; pnpm can add placeholders for ignored builds during install, and those entries should be reviewed before setting them to `true` or `false`.
 
 ## Monorepo Layout
 
@@ -125,7 +118,7 @@ Adjust the baseline deliberately:
 - Migrate older pnpm hardening keys deliberately.
 - Migrate `packageManagerStrictVersion: true` to `pmOnFail: error`.
 - Migrate `managePackageManagerVersions: false` to `pmOnFail: ignore`, unless strict version matching is desired.
-- Migrate `onlyBuiltDependencies`, `ignoredBuiltDependencies`, `neverBuiltDependencies`, and `ignoreDepScripts` to `allowBuilds`.
+- Migrate `onlyBuiltDependencies`, `onlyBuiltDependenciesFile`, `ignoredBuiltDependencies`, `neverBuiltDependencies`, and `ignoreDepScripts` to `allowBuilds`.
 - If direct dependency specs are ranged but the lockfile has exact resolved versions, pin direct dependencies to those exact versions before regenerating the lockfile.
 
 ## Verification
