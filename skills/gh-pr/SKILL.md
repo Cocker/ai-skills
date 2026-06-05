@@ -46,7 +46,7 @@ Prefer `gh` commands for GitHub operations and plain `git` commands for local re
 
 
 ### Default PR template
-```markdown
+````text
 # Summary
 
 Describe the intention of the PR and the main behavior changed.
@@ -79,7 +79,7 @@ Reviewer note: Explain what this diagram is meant to clarify.
 # Validation
 
 Describe what was used to verify the validity of this PR.
-```
+````
 
 Notes:
  - Visualized section is optional.
