@@ -45,25 +45,45 @@ Prefer `gh` commands for GitHub operations and plain `git` commands for local re
    - Include a ticket reference when the user gives one, or when it is obvious from the branch name, commits, or repository conventions.
 
 
-### Default PR template 
+### Default PR template
 ```markdown
-  # Summary
+# Summary
 
-  describe the intention of the PR
+Describe the intention of the PR and the main behavior changed.
 
-  # Visualized
+# Visualized
 
-  add an artifact that will visualize the changes where it makes sense (mermaid, tree, etc)
+Optional. Include only when visuals help reviewers understand the change.
+Add one or more named visuals. The visual heading is the attribution/name.
 
-  if mermaid paste it with language specific, so that it can be rendered in PR view
-  
-  # Validation
+## New Component Tree
 
-  what was used to verify the validity of this PR
+```text
+src/
+  feature/
+    Component.tsx
+    Component.test.tsx
+```
+
+Reviewer note: Explain what this visual is meant to clarify.
+
+## Relation Diagram
+
+```mermaid
+flowchart TD
+  A[Before] --> B[After]
+```
+
+Reviewer note: Explain what this diagram is meant to clarify.
+
+# Validation
+
+Describe what was used to verify the validity of this PR.
 ```
 
 Notes:
- - Visualized section is optional
+ - Visualized section is optional.
+ - Each visual or diagram in the Visualized section must have its own descriptive heading/name.
 
 Example (adjust paths/flags as needed):
 
