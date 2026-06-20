@@ -16,6 +16,7 @@ Pick the skills you want and the coding agents to install them on.
 | [git-new-branch](skills/git-new-branch/SKILL.md) | Create a new Git branch from the right starting point. |
 | [manage-pnpm-workspace](skills/manage-pnpm-workspace/SKILL.md) | Create, harden, audit, and maintain pnpm workspaces and monorepos. |
 | [setup-dependabot](skills/setup-dependabot/SKILL.md) | Set up minimal grouped Dependabot dependency updates. |
+| [security-dependency-bump](skills/security-dependency-bump/SKILL.md) | Investigate and patch vulnerable Node.js packages in npm, yarn, or pnpm repos. |
 
 ## License
 
