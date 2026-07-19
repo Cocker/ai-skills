@@ -14,6 +14,7 @@ Use this skill when creating or updating `.github/dependabot.yml`.
 - Use `versioning-strategy: "increase"` where supported, unless specified otherwise.
 - Split update groups by `minor`+`patch` versus `major`.
 - Split dependency groups by `production` versus `development` when the ecosystem supports `dependency-type`.
+- Always add a `github-actions` update group, unless the user explicitly opts out.
 - Set Dependabot minimum age with `cooldown`, matching existing package-manager settings such as npm/pnpm/yarn minimum release age. Do not invent a different age.
 - Infer `directory` from the repo structure. In monorepos or non-root manifests, inspect lockfiles, workspaces, and package manifests instead of assuming `/`.
 
