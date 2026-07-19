@@ -15,7 +15,7 @@ Use this skill when creating or updating `.github/dependabot.yml`.
 - Split update groups by `minor`+`patch` versus `major`.
 - Split dependency groups by `production` versus `development` when the ecosystem supports `dependency-type`.
 - Always add a `github-actions` update group, unless the user explicitly opts out.
-- Set Dependabot minimum age with `cooldown`, matching existing package-manager settings such as npm/pnpm/yarn minimum release age. Do not invent a different age.
+- Set Dependabot `cooldown` on every update entry so all groups wait before updating. Infer the age from existing package-manager settings such as npm/pnpm/yarn minimum release age when possible; otherwise use `default-days: 7`, unless specified otherwise.
 - Infer `directory` from the repo structure. In monorepos or non-root manifests, inspect lockfiles, workspaces, and package manifests instead of assuming `/`.
 
 ## Example Template
@@ -72,6 +72,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 5
     groups:
       github-actions-minor-patch:
